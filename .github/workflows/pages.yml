@@ -23,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Every page says what the check expects
-        run: zsh scripts/check-site.sh --local
+        run: bash scripts/check-site.sh --local
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

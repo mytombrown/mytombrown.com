@@ -6,6 +6,6 @@ legal.mytombrown.com. Registered as WEB-733 on the appops board.
 
 - `/` — every app, one card each
 - `/squishy-math/`, `/squishy-words/`, `/team-assist/`, `/srt-stream-tester/`, `/family-meal-planner/`
-- `zsh scripts/check-site.sh` — WEB-T-1: the live site answers and the Squishy Math page teaches the game
+- `bash scripts/check-site.sh` — WEB-T-1: the live site answers and the Squishy Math page teaches the game
 
 Screenshots come from each app repo's `docs/screenshots/`, resized to 900px JPEG with `sips`.
