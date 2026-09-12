@@ -1,0 +1,1 @@
+{ "name": "mytombrown.com", "short_name": "mytombrown", "icons": [{ "src": "/assets/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }], "display": "browser", "background_color": "#ffffff", "theme_color": "#2358d4" }
