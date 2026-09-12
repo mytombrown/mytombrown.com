@@ -17,7 +17,7 @@ if [[ "${1:-}" == "--local" ]]; then
   grep -q 'How to play' "$root/squishy-words/index.html" || red "squishy-words/index.html has no 'How to play'"
   [[ "$(cat "$root/CNAME")" == "mytombrown.com" ]] || red "CNAME is not mytombrown.com"
 else
-  code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://mytombrown.com/ || echo 000)
+  code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 https://mytombrown.com/)
   [[ "$code" == "200" ]] || red "https://mytombrown.com/ answered $code (DNS or Pages not live yet)"
   if curl -s --max-time 20 https://mytombrown.com/squishy-math/ | grep -q 'How to play'; then
     echo "ok: /squishy-math/ carries 'How to play'"
