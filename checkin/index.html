@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Check-in player</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <style>
+    :root { color-scheme: light dark; --accent:#2a78d6; --bg:#fff; --fg:#111; --muted:#666; --line:#ddd; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#111; --fg:#eee; --muted:#999; --line:#333; } }
+    body { margin:0; padding:16px; background:var(--bg); color:var(--fg);
+      font: 17px/1.45 -apple-system, system-ui, sans-serif; }
+    h1 { font-size:1.1rem; margin:0 0 12px; }
+    .ctl { display:flex; gap:10px; margin:0 0 16px; }
+    button { border:none; border-radius:999px; padding:12px 22px; font-size:1.05rem; font-weight:700; color:#fff;
+      background:var(--accent); }
+    #stop { background:#c62828; }
+    #now { align-self:center; color:var(--muted); font-size:0.9rem; }
+    pre { white-space:pre-wrap; word-break:break-word; font:inherit; border-top:1px solid var(--line); padding-top:12px; }
+    .err { color:#c62828; }
+  </style>
+</head>
+<body>
+  <h1>Check-in</h1>
+  <div class="ctl">
+    <button id="play" type="button">▶ Play</button>
+    <button id="stop" type="button" hidden>■ Stop</button>
+    <span id="now"></span>
+  </div>
+  <pre id="text"></pre>
+  <script>
+  // The text lives in the URL fragment (never sent to the server). It is the
+  // day's docs/CHECKIN-<date>.md plus the board digest, written by
+  // appops/scripts/board_digest.py --append, deflated and base64url-encoded.
+  (function () {
+    var play = document.getElementById('play'), stop = document.getElementById('stop');
+    var now = document.getElementById('now'), out = document.getElementById('text');
+    function b64url(s) {
+      s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '=';
+      var bin = atob(s), bytes = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return bytes;
+    }
+    async function load() {
+      var m = /[#&]z=([^&]+)/.exec(location.hash);
+      if (!m) { out.innerHTML = '<span class="err">No check-in in this link. Open it from the day\'s CHECKIN file.</span>'; play.hidden = true; return ''; }
+      var bytes = b64url(m[1]);
+      var ds = new DecompressionStream('deflate-raw');
+      var stream = new Blob([bytes]).stream().pipeThrough(ds);
+      return await new Response(stream).text();
+    }
+    var chunks = [], idx = 0, text = '';
+    function voice() {
+      var vs = speechSynthesis.getVoices(), want = ['Samantha', 'Ava', 'Allison'];
+      for (var i = 0; i < want.length; i++) for (var j = 0; j < vs.length; j++) if (vs[j].name.indexOf(want[i]) === 0) return vs[j];
+      for (var k = 0; k < vs.length; k++) if (/^en[-_]US/i.test(vs[k].lang)) return vs[k];
+      return null;
+    }
+    function reset() { speechSynthesis.cancel(); idx = 0; play.hidden = false; stop.hidden = true; now.textContent = ''; }
+    function next() {
+      if (idx >= chunks.length) { reset(); return; }
+      var u = new SpeechSynthesisUtterance(chunks[idx]);
+      var v = voice(); if (v) u.voice = v;
+      u.onend = function () { idx += 1; next(); };
+      u.onerror = reset;
+      now.textContent = (idx + 1) + '/' + chunks.length;
+      speechSynthesis.speak(u);
+    }
+    play.addEventListener('click', function () {
+      if (!text) return;
+      reset(); play.hidden = true; stop.hidden = false;
+      // One utterance per paragraph: iOS drops very long single utterances.
+      chunks = text.split(/\n\s*\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+      next();
+    });
+    stop.addEventListener('click', reset);
+    speechSynthesis.getVoices();
+    load().then(function (t) { text = t; if (t) out.textContent = t; })
+          .catch(function (e) { out.innerHTML = '<span class="err">Could not read this link: ' + e + '</span>'; });
+  })();
+  </script>
+</body>
+</html>
