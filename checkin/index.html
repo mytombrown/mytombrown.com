@@ -19,10 +19,19 @@
     #now { align-self:center; color:var(--muted); font-size:0.9rem; }
     pre { white-space:pre-wrap; word-break:break-word; font:inherit; border-top:1px solid var(--line); padding-top:12px; }
     .err { color:#c62828; }
+    .unlock { display:none; gap:8px; margin:0 0 16px; }
+    .unlock input { flex:1; font-size:1.05rem; padding:10px 12px; border:1px solid var(--line); border-radius:8px;
+      background:var(--bg); color:var(--fg); }
+    .stamp { color:var(--muted); font-size:0.85rem; margin:0 0 10px; }
   </style>
 </head>
 <body>
-  <h1>Check-in</h1>
+  <h1 id="title">Check-in</h1>
+  <p class="stamp" id="stamp"></p>
+  <form class="unlock" id="unlock" autocomplete="off">
+    <input id="pass" type="password" placeholder="Passphrase (once)" autocapitalize="none" autocorrect="off">
+    <button type="submit">Unlock</button>
+  </form>
   <div class="ctl">
     <button id="play" type="button">▶ Play</button>
     <button id="stop" type="button" hidden>■ Stop</button>
@@ -42,9 +51,45 @@
       for (var i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
       return bytes;
     }
+    var unlock = document.getElementById('unlock'), pass = document.getElementById('pass');
+    var stamp = document.getElementById('stamp');
+    function b64(s) { var bin = atob(s), b = new Uint8Array(bin.length); for (var i = 0; i < bin.length; i++) b[i] = bin.charCodeAt(i); return b; }
+    // With no link: the mini publishes checkin/latest.json (AES-256-GCM under a
+    // PBKDF2 key from Tom's passphrase — appops/scripts/publish_checkin.py). The
+    // passphrase stays in this phone's localStorage after the first unlock.
+    async function decrypt(blob, phrase) {
+      var enc = new TextEncoder();
+      var base = await crypto.subtle.importKey('raw', enc.encode(phrase), 'PBKDF2', false, ['deriveKey']);
+      var key = await crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt: b64(blob.salt), iterations: blob.iter, hash: 'SHA-256' },
+        base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+      var plain = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(blob.iv) }, key, b64(blob.ct));
+      return new TextDecoder().decode(plain);
+    }
+    async function latest() {
+      var r = await fetch('latest.json', { cache: 'no-store' });
+      if (!r.ok) throw new Error('no check-in published yet');
+      var blob = await r.json();
+      stamp.textContent = 'Published ' + new Date(blob.published_at).toLocaleString('en-US',
+        { timeZone: 'America/Chicago', weekday: 'short', hour: 'numeric', minute: '2-digit' }) + ' CT';
+      var saved = ''; try { saved = localStorage.getItem('checkin-pass') || ''; } catch (e) {}
+      if (saved) { try { return await decrypt(blob, saved); } catch (e) { try { localStorage.removeItem('checkin-pass'); } catch (e2) {} } }
+      return await new Promise(function (resolve) {
+        unlock.style.display = 'flex'; play.hidden = true; pass.focus();
+        pass.onkeydown = function (ev) { if (ev.key === 'Enter') { ev.preventDefault(); unlock.requestSubmit(); } };
+        unlock.onsubmit = async function (ev) {
+          ev.preventDefault();
+          try {
+            var t = await decrypt(blob, pass.value.trim());
+            try { localStorage.setItem('checkin-pass', pass.value.trim()); } catch (e) {}
+            unlock.style.display = 'none'; play.hidden = false; resolve(t);
+          } catch (e) { pass.value = ''; pass.placeholder = 'Wrong passphrase — try again'; }
+        };
+      });
+    }
     async function load() {
       var m = /[#&]z=([^&]+)/.exec(location.hash);
-      if (!m) { out.innerHTML = '<span class="err">No check-in in this link. Open it from the day\'s CHECKIN file.</span>'; play.hidden = true; return ''; }
+      if (!m) return latest();
       var bytes = b64url(m[1]);
       var ds = new DecompressionStream('deflate-raw');
       var stream = new Blob([bytes]).stream().pipeThrough(ds);
@@ -71,13 +116,17 @@
       if (!text) return;
       reset(); play.hidden = true; stop.hidden = false;
       // One utterance per paragraph: iOS drops very long single utterances.
-      chunks = text.split(/\n\s*\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+      var spoken = text.replace(/\*\*/g, '').replace(/^#+\s*/gm, '').replace(/^\s*[-•]\s*/gm, '')
+        .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').replace(/`/g, '').replace(/^---$/gm, '')
+        .replace(/\b([A-Z]{2,4})-(T-)?(\d+)\b/g, function (_, a, t, n) { return a.split('').join(' ') + (t ? ' T ' : ' ') + n; })
+        .replace(/(\d)\/(\d)/g, '$1 $2');
+      chunks = spoken.split(/\n\s*\n|(?<=[.!?])\s+(?=[A-Z])/).map(function (s) { return s.trim(); }).filter(Boolean);
       next();
     });
     stop.addEventListener('click', reset);
     speechSynthesis.getVoices();
     load().then(function (t) { text = t; if (t) out.textContent = t; })
-          .catch(function (e) { out.innerHTML = '<span class="err">Could not read this link: ' + e + '</span>'; });
+          .catch(function (e) { play.hidden = true; out.innerHTML = '<span class="err">' + (e.message || e) + '</span>'; });
   })();
   </script>
 </body>
