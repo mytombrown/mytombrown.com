@@ -125,7 +125,7 @@
     });
     stop.addEventListener('click', reset);
     speechSynthesis.getVoices();
-    load().then(function (t) { text = t; if (t) out.textContent = t; })
+    load().then(function (t) { text = t; if (t) out.textContent = t.replace(/\*\*/g, '').replace(/^#+\s*/gm, '').replace(/^---$/gm, ''); })
           .catch(function (e) { play.hidden = true; out.innerHTML = '<span class="err">' + (e.message || e) + '</span>'; });
   })();
   </script>
