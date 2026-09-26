@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Satellite Surface Remote turns an iPhone or iPad into a button surface for Bitfocus Companion over the Satellite API. Setup, pages, artwork and troubleshooting.">
+  <title>Satellite Surface Remote | Help and setup</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="mytombrown.com home">
+      <img class="brand-icon" src="/assets/squishy-math-192.png" alt="" width="44" height="44">
+      <span>mytombrown.com</span>
+    </a>
+    <nav aria-label="Apps">
+      <a href="/">Home</a>
+      <a href="/squishy-math/">Squishy Math</a>
+      <a href="/squishy-words/">Squishy Words</a>
+      <a href="/team-assist/">Team Assist</a>
+      <a href="/srt-stream-tester/">SRT Stream Tester</a>
+      <a href="/family-meal-planner/">Family Meal Planner</a>
+      <a href="/satellite-surface-remote/" aria-current="page">Satellite Surface Remote</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero with-icon">
+      <img class="hero-icon" src="/assets/satellite-surface-remote-192.png" alt="" width="120" height="120">
+      <div>
+        <p class="eyebrow">Live production · iPhone · iPad</p>
+        <h1>Satellite Surface Remote</h1>
+        <p class="lede">Your iPhone or iPad becomes a button surface for Bitfocus Companion. Press buttons, change pages, see live button text and colour.</p>
+        <div class="actions">
+          <span class="status dev">In development</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="getting-started">
+      <p class="eyebrow">Getting started</p>
+      <h2>Five steps to a working surface.</h2>
+      <ol class="steps">
+        <li><strong>Install Companion.</strong> Get Bitfocus Companion from bitfocus.io and run it on a computer on the same Wi-Fi or network as your phone.</li>
+        <li><strong>Turn on Satellite.</strong> In Companion's Settings, make sure the Satellite <strong>WebSocket</strong> listener is on. Its port is <strong>16623</strong> unless you changed it.</li>
+        <li><strong>Find the computer's address.</strong> Companion's launcher window shows it, for example <code>192.168.1.50</code>.</li>
+        <li><strong>Enter host and port.</strong> On the Connect screen type the address in Host and the port in Port. Tap <strong>Connect</strong>.</li>
+        <li><strong>Allow Local Network.</strong> iOS asks once. Tap <strong>Allow</strong>. The app switches to the Surface screen when it is Online.</li>
+      </ol>
+      <p>Tap <strong>Save Server</strong> to keep the connection. Saved servers show in the Servers list. Star one to connect to it first.</p>
+    </section>
+
+    <section class="block" id="using-the-surface">
+      <div class="two-col">
+        <div>
+          <p class="eyebrow">Pages and buttons</p>
+          <h2>It follows Companion.</h2>
+          <ul class="big-list">
+            <li><strong>Tap a button</strong> to press it. Hold to hold it.</li>
+            <li><strong>Up / Down</strong> buttons change the Companion page. The page number shows at the top.</li>
+            <li><strong>Button text and colour</strong> update live from Companion.</li>
+            <li><strong>Landscape only.</strong> Turn the phone sideways to see the surface.</li>
+            <li>In Companion, the phone shows under <strong>Surfaces</strong>. Set its page and name there.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow">Surface settings</p>
+          <h2>Tap the grid size button.</h2>
+          <ul class="big-list">
+            <li><strong>Rows and Columns</strong> set the grid. Default 4 × 8.</li>
+            <li><strong>Artwork</strong> Off shows text and colour only. <strong>Off is fastest.</strong> 72 or 96 shows Companion's button pictures.</li>
+            <li><strong>Text Size</strong> makes labels bigger or smaller.</li>
+            <li><strong>Advanced layout</strong> adds encoder (knob) controls.</li>
+            <li><strong>Auto reconnect</strong> comes back by itself if Companion restarts.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="troubleshooting">
+      <p class="eyebrow">Troubleshooting</p>
+      <h2>If it will not connect.</h2>
+      <ul class="big-list">
+        <li><strong>Stuck on Connecting or Offline?</strong> Check iOS Settings › Privacy &amp; Security › <strong>Local Network</strong>. This app must be on. Without it the app cannot reach Companion.</li>
+        <li><strong>Wrong port.</strong> The app uses the WebSocket port (<strong>16623</strong>), not the TCP port (16622).</li>
+        <li><strong>Same network.</strong> Phone and Companion computer must be on the same network. Guest Wi-Fi often blocks devices from seeing each other.</li>
+        <li><strong>Firewall.</strong> Allow Companion through the computer's firewall.</li>
+        <li><strong>Companion closed or restarted.</strong> The status pill reads Offline. With Auto reconnect on, it comes back Online when Companion does.</li>
+        <li><strong>Buttons slow to update?</strong> Set Artwork to <strong>Off</strong>.</li>
+        <li><strong>Up / Down show no picture?</strong> With Artwork off they show as text labels. That is expected.</li>
+        <li><strong>Blank screen in portrait?</strong> The surface is landscape only. Turn the device.</li>
+      </ul>
+    </section>
+
+    <section class="block" id="privacy">
+      <p class="eyebrow">Privacy</p>
+      <h2>No account. Nothing collected.</h2>
+      <p>The app talks only to the Companion server you type in. Saved servers stay on your device. <a href="https://legal.mytombrown.com/satellite-surface-remote/privacy/">Privacy policy</a>.</p>
+      <p>Not affiliated with, endorsed by, or sponsored by Bitfocus. Companion is a product of Bitfocus AS.</p>
+    </section>
+
+    <section class="contact-band">
+      <div>
+        <p class="eyebrow">Questions?</p>
+        <h2>Email support</h2>
+      </div>
+      <a href="mailto:appstoresupportwithasmile@icloud.com">appstoresupportwithasmile@icloud.com</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Thomas M Brown.</p>
+    <p><a href="https://legal.mytombrown.com/satellite-surface-remote/privacy/">Privacy</a> · <a href="/">All apps</a></p>
+  </footer>
+</body>
+</html>

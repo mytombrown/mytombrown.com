@@ -10,7 +10,7 @@ root="$(cd "$(dirname "$0")/.." && pwd)"
 fails=0
 red() { echo "FAIL: $*" >&2; fails=$((fails + 1)); }
 if [[ "${1:-}" == "--local" ]]; then
-  for p in index.html squishy-math/index.html squishy-words/index.html team-assist/index.html srt-stream-tester/index.html family-meal-planner/index.html; do
+  for p in index.html squishy-math/index.html squishy-words/index.html team-assist/index.html srt-stream-tester/index.html family-meal-planner/index.html satellite-surface-remote/index.html; do
     [[ -s "$root/$p" ]] || red "missing $p"
   done
   grep -q 'How to play' "$root/squishy-math/index.html" || red "squishy-math/index.html has no 'How to play'"
