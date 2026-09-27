@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# WEB-T-1 — mytombrown.com is live and the Squishy Math page teaches the game.
+# WEB-T-1 — mytombrown.com is live and the Squishy Math page teaches the game (and, from 2.0, the Learning Center).
 #
 #   bash scripts/check-site.sh           # live: https://mytombrown.com/ answers 200,
 #                                        #       /squishy-math/ carries 'How to play'
@@ -14,6 +14,7 @@ if [[ "${1:-}" == "--local" ]]; then
     [[ -s "$root/$p" ]] || red "missing $p"
   done
   grep -q 'How to play' "$root/squishy-math/index.html" || red "squishy-math/index.html has no 'How to play'"
+  grep -q 'The Learning Center' "$root/squishy-math/index.html" || red "squishy-math/index.html has no 'The Learning Center' (2.0)"
   grep -q 'How to play' "$root/squishy-words/index.html" || red "squishy-words/index.html has no 'How to play'"
   [[ "$(cat "$root/CNAME")" == "mytombrown.com" ]] || red "CNAME is not mytombrown.com"
 else
@@ -23,6 +24,11 @@ else
     echo "ok: /squishy-math/ carries 'How to play'"
   else
     red "https://mytombrown.com/squishy-math/ has no 'How to play'"
+  fi
+  if curl -s --max-time 20 https://mytombrown.com/squishy-math/ | grep -q 'The Learning Center'; then
+    echo "ok: /squishy-math/ carries 'The Learning Center' (2.0)"
+  else
+    red "https://mytombrown.com/squishy-math/ has no 'The Learning Center' (2.0)"
   fi
 fi
 if (( fails == 0 )); then echo "PASS WEB-T-1 ($(date -u +%Y-%m-%dT%H:%M:%SZ))"; exit 0; fi
