@@ -35,7 +35,7 @@
         <h1>Satellite Surface Remote</h1>
         <p class="lede">Your iPhone or iPad becomes a button surface for Bitfocus Companion. Press buttons, change pages, see live button text and colour.</p>
         <div class="actions">
-          <span class="status dev">Version 1.0 (build 3) · coming to the App Store · $1.99</span>
+          <span class="status dev">Version 1.1 (build 4) · in TestFlight · $1.99</span>
         </div>
       </div>
     </section>
@@ -46,9 +46,9 @@
       <ol class="steps">
         <li><strong>Install Companion.</strong> Get Bitfocus Companion from bitfocus.io and run it on a computer on the same Wi-Fi or network as your phone.</li>
         <li><strong>Turn on Satellite.</strong> In Companion's Settings, make sure the Satellite <strong>WebSocket</strong> listener is on. Its port is <strong>16623</strong> unless you changed it.</li>
-        <li><strong>Find the computer's address.</strong> Companion's launcher window shows it, for example <code>192.168.1.50</code>.</li>
-        <li><strong>Enter host and port.</strong> On the Connect screen type the address in Host and the port in Port. Tap <strong>Connect</strong>.</li>
-        <li><strong>Allow Local Network.</strong> iOS asks once. Tap <strong>Allow</strong>. The app switches to the Surface screen when it is Online.</li>
+        <li><strong>Allow Local Network.</strong> iOS asks once. Tap <strong>Allow</strong>.</li>
+        <li><strong>Tap your Companion.</strong> The Connect screen lists it under <strong>Found on network</strong>. Tap it. The app switches to the Surface screen when it is Online.</li>
+        <li><strong>Not listed?</strong> Type the computer's address in Host (Companion's launcher window shows it, for example <code>192.168.1.50</code>) and the port in Port. Tap <strong>Connect</strong>.</li>
       </ol>
       <p>The app remembers your <strong>last connection</strong> and connects to it when it opens.</p>
     </section>
@@ -101,6 +101,35 @@
             <li><strong>Text Size</strong> makes labels bigger or smaller.</li>
             <li><strong>Advanced layout</strong> adds encoder (knob) controls.</li>
             <li><strong>Auto reconnect</strong> comes back by itself if Companion restarts.</li>
+            <li>On the Connect screen, <strong>Keep screen awake while connected</strong> stops the phone locking mid-show.</li>
+            <li>On the Connect screen, <strong>Theme</strong>: System, Light or Dark.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" id="dashboard">
+      <div class="two-col">
+        <div>
+          <p class="eyebrow">Dashboard · new in 1.1</p>
+          <h2>Your keys, one screen.</h2>
+          <ul class="big-list">
+            <li>Open the <strong>Dashboard</strong> tab. Tap <strong>Add keys</strong>.</li>
+            <li>Use the page arrows to find a key on <strong>any Companion page</strong>. Tap it to add it. Tap <strong>Done</strong>.</li>
+            <li>Keys stay live: text, colour and state follow Companion. Tap to press.</li>
+            <li><strong>Edit</strong> removes keys. The Dashboard is kept for each server.</li>
+            <li>Needs Companion 5 with <strong>Satellite subscriptions</strong> on. If they are off, the tab says so.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="eyebrow">Operator mode · new in 1.1</p>
+          <h2>Hand a crew member only their keys.</h2>
+          <ul class="big-list">
+            <li>On your Dashboard tap <strong>Share</strong>. Name the role, pick its keys, tap <strong>Show QR</strong>.</li>
+            <li>On the crew phone: Connect › <strong>Operator</strong>. Scan the QR. That phone shows only those keys.</li>
+            <li>Your phone can be off. The crew phone talks to Companion directly.</li>
+            <li><strong>Revoke</strong> in the same Share sheet. Their keys go within seconds.</li>
+            <li><strong>One-time setup:</strong> in Companion, add a custom variable named <code>surfaceremote_roles</code>. The app tells you if it is missing. Companion's HTTP API must be on.</li>
           </ul>
         </div>
       </div>
@@ -119,13 +148,15 @@
         <li><strong>Up / Down show no picture?</strong> With Artwork off they show as text labels. That is expected.</li>
         <li><strong>Want the phone upright?</strong> Tap the rotate button on the Surface screen.</li>
         <li><strong>Saved servers gone?</strong> They are kept on the device. Buy or restore Multi-Instance to see them again.</li>
+        <li><strong>A PIN pad covers the keys?</strong> Companion's PIN lock is on. Type the PIN on the app's keypad.</li>
+        <li><strong>Need help from support?</strong> Diagnostics › <strong>Share Log</strong> sends the connection log. Attach it to your email.</li>
       </ul>
     </section>
 
     <section class="block" id="privacy">
       <p class="eyebrow">Privacy</p>
       <h2>No account. Nothing collected.</h2>
-      <p>The app talks only to the Companion server you type in. Saved servers stay on your device. <a href="https://legal.mytombrown.com/satellite-surface-remote/privacy/">Privacy policy</a>.</p>
+      <p>The app talks only to the Companion server you use. Saved servers stay on your device. The camera is used only to scan an Operator QR code, on the device. <a href="https://legal.mytombrown.com/satellite-surface-remote/privacy/">Privacy policy</a>.</p>
       <p>Not affiliated with, endorsed by, or sponsored by Bitfocus. Companion is a product of Bitfocus AS.</p>
     </section>
 
