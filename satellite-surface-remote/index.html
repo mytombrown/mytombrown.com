@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Surface Remote for Companion turns an iPhone or iPad into a button surface for Bitfocus Companion over the Satellite API. Setup, pages, artwork, Save Connection, Multi-Instance and troubleshooting.">
+  <meta name="description" content="Surface Remote for Companion turns an iPhone or iPad into a button surface for Bitfocus Companion over the Satellite API. Setup, pages, artwork, Save Connection, Multi-Instance, Dashboard, Operator mode and troubleshooting.">
   <title>Surface Remote for Companion | Help and setup</title>
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
@@ -35,7 +35,7 @@
         <h1>Surface Remote for Companion</h1>
         <p class="lede">Your iPhone or iPad becomes a button surface for Bitfocus Companion. Press buttons, change pages, see live button text and colour. On your home screen it is called Surface Remote.</p>
         <div class="actions">
-          <span class="status dev">Version 1.1 (build 5) · in TestFlight · Free · Save Connection $1.99</span>
+          <span class="status dev">Version 1.1 (build 6) · in TestFlight · Free · Save Connection $1.99</span>
         </div>
       </div>
     </section>
@@ -72,8 +72,8 @@
           <h2>Many Companions. Two at once on iPad.</h2>
           <ul class="big-list">
             <li><strong>Save Server</strong> keeps each one in the Servers list. Star one to connect to it first.</li>
-            <li><strong>Switcher (⇄)</strong> on the Surface screen, next to the page arrows. Pick a server. The surface shows <strong>Connecting</strong>, then its buttons.</li>
-            <li><strong>iPad two-up:</strong> tap the split button. Two surfaces at once. Each has its own ⇄ and page arrows.</li>
+            <li><strong>Tap the name</strong> at the top of the Surface screen to switch. Pick a saved server or a Companion on your network. The surface shows <strong>Connecting</strong>, then its buttons.</li>
+            <li><strong>iPad: Second surface.</strong> Two surfaces at once. Each names its own Companion and has its own page arrows. <strong>✕</strong> on the second one closes it.</li>
             <li><strong>Biggest keys, automatically.</strong> On iPad the surfaces sit top and bottom or side by side — whichever gives bigger keys. Rotate and it re-fits.</li>
             <li>Companion lists each side as <strong>its own surface</strong>. Two sides on one Companion is fine.</li>
             <li><strong>Restore Purchases</strong> is in Settings › Purchases. One purchase covers your devices on the same Apple Account.</li>
@@ -87,13 +87,19 @@
       <h2>Two Companions, or two surfaces.</h2>
       <ol class="steps">
         <li><strong>Buy Multi-Instance.</strong> Settings tab (gear) › <strong>Purchases</strong>.</li>
-        <li><strong>Save the first.</strong> Connect to Companion A. On the Connect screen tap <strong>Save Server</strong>.</li>
-        <li><strong>Save the second.</strong> Connect to Companion B and tap <strong>Save Server</strong>. Same Companion twice is fine — each one shows up in Companion as its own surface.</li>
-        <li><strong>Switch.</strong> On the Surface screen tap <strong>⇄</strong> and pick a server.</li>
-        <li><strong>iPad: both at once.</strong> Tap the split button. Pick a server on each side with its own ⇄.</li>
+        <li><strong>Connect to the first.</strong> Tap your Companion on the Connect screen. <strong>Save Server</strong> keeps it.</li>
+        <li><strong>iPad: tap Second surface.</strong> A second surface opens below or beside.</li>
+        <li><strong>Pick its Companion.</strong> Tap the name at the top of that surface. Choose a saved server or one on your network. Same Companion twice is fine.</li>
+        <li><strong>Done with it?</strong> Tap <strong>✕</strong> on the second surface.</li>
         <li><strong>In Companion:</strong> open <strong>Surfaces</strong>. Each side is listed on its own. Set its page there.</li>
       </ol>
-      <p>Tip: give each one a different <strong>Surface Name</strong> on the Connect screen before you save it. That name is what Companion shows.</p>
+      <p>The name at the top of each surface is the Companion it is on:</p>
+      <ul class="big-list">
+        <li><strong>Your saved name</strong> for that address, if you saved one.</li>
+        <li>Otherwise <strong>the name Companion gives itself</strong> on the network, for example <strong>Companion (Control Room)</strong>.</li>
+        <li>Otherwise <strong>its address</strong>. A Companion that does not announce itself shows as <strong>Companion at 192.168.1.82</strong>.</li>
+      </ul>
+      <p>The <strong>Surface Name</strong> on the Connect screen is what Companion calls this device.</p>
       <img src="/assets/surface-remote-ipad-two-up.jpg" alt="iPad showing two Companion surfaces, SR Live A on top and SR Live B below" width="1200" height="900" style="max-width:100%;height:auto;border-radius:12px">
 
     </section>
@@ -109,6 +115,7 @@
             <li><strong>Button text and colour</strong> update live from Companion.</li>
             <li><strong>Rotate button</strong> (top of the Surface screen) stands the buttons upright: hold the phone upright and Companion's columns become rows. Tap it again for sideways.</li>
             <li>In Companion, the phone shows under <strong>Surfaces</strong>. Set its page and name there.</li>
+            <li><strong>PIN lock.</strong> If Companion locks the surface with a PIN, the keys dim and a keypad shows. Type the PIN. The keys come back when Companion unlocks.</li>
           </ul>
         </div>
         <div>
@@ -124,6 +131,7 @@
             <li><strong>Auto reconnect</strong> comes back by itself if Companion restarts.</li>
             <li>Settings › App: <strong>Keep screen awake while connected</strong> stops the phone locking mid-show.</li>
             <li>Settings › App: <strong>Theme</strong>: System, Light or Dark.</li>
+            <li><strong>Diagnostics</strong> shows the server, latency, reconnects, Companion and Satellite versions, and uptime. <strong>Share Log</strong> sends the connection log.</li>
             <li>The <strong>Connect</strong> screen turns with the phone too: one column upright, two side by side sideways.</li>
           </ul>
         </div>
@@ -133,7 +141,7 @@
     <section class="block" id="dashboard">
       <div class="two-col">
         <div>
-          <p class="eyebrow">Dashboard · new in 1.1</p>
+          <p class="eyebrow">Custom Dashboard · new in 1.1</p>
           <h2>Your keys, one screen.</h2>
           <ul class="big-list">
             <li>Open the <strong>Dashboard</strong> tab. Tap <strong>Add keys</strong>.</li>
